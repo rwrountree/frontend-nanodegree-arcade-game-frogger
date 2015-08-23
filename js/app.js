@@ -4,8 +4,8 @@ var Enemy = function() {
     'use strict';
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-    this.row = 0;
-    this.col = 0;
+    this.x = 0;
+    this.y = 0;
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -36,8 +36,8 @@ var Player = function() {
     'use strict';
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-    this.row = 0;
-    this.col = 0;
+    this.x = 0;
+    this.y = 0;
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images

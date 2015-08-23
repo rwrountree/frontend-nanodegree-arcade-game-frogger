@@ -4,6 +4,8 @@ var Enemy = function() {
     'use strict';
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
+    this.row = 0;
+    this.col = 0;
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -17,6 +19,7 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    // TODO: implement Enemy.update
 };
 
 // Draw the enemy on the screen, required method for game
@@ -29,12 +32,52 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 
+var Player = function() {
+    'use strict';
+    // Variables applied to each of our instances go here,
+    // we've provided one for you to get started
+    this.row = 0;
+    this.col = 0;
+
+    // The image/sprite for our enemies, this uses
+    // a helper we've provided to easily load images
+    this.sprite = 'images/char-cat-girl.png';
+};
+
+Player.prototype.update = function(dt) {
+    'use strict';
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+    // TODO: implement Player.update
+};
+
+// Draw the player on the screen, required method for game
+Player.prototype.render = function() {
+    'use strict';
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+// Handle the player's input
+Player.prototype.handleInput = function() {
+    'use strict';
+    // TODO: implement Player.handleInput
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+var createEnemies = function(numEnemies) {
+    'use strict';
+    var enemies = [];
+    for (var i = 0; i < numEnemies; i += 1) {
+        enemies.push(new Enemy());
+    }
+    return enemies;
+};
 
-
+var allEnemies = createEnemies(10);
+var player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

@@ -34,14 +34,14 @@ Enemy.prototype.render = function() {
 
 var Player = function() {
     'use strict';
+    // The image/sprite for our enemies, this uses
+    // a helper we've provided to easily load images
+    this.sprite = 'images/char-cat-girl.png';
+
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = 0;
     this.y = 0;
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/char-cat-girl.png';
 };
 
 Player.prototype.update = function(dt) {
@@ -59,9 +59,29 @@ Player.prototype.render = function() {
 };
 
 // Handle the player's input
-Player.prototype.handleInput = function() {
+Player.prototype.handleInput = function(keyCode) {
     'use strict';
     // TODO: implement Player.handleInput
+    var image = Resources.get(this.sprite),
+        width = image.width,
+        height = image.height;
+
+    switch (keyCode) {
+        case 'left':
+            player.x -= width;
+            break;
+        case 'right':
+            player.x += width;
+            break;
+        case 'up':
+            player.y -= height / 2;
+            break;
+        case 'down':
+            player.y += height / 2;
+            break;
+        default:
+            // no op
+    }
 };
 
 // Now instantiate your objects.

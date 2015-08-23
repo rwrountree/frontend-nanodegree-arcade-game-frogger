@@ -109,6 +109,11 @@ var Engine = (function(global) {
      * they are just drawing the entire screen over and over.
      */
     function render() {
+        /*
+         * Clear the canvas
+         */
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
@@ -166,6 +171,11 @@ var Engine = (function(global) {
      */
     function reset() {
         // TODO: implement reset
+        var image = Resources.get(player.sprite);
+        // Start the player in the center
+        player.x = 2 * image.width;
+        // Start the player at the bottom with a vertical adjustment to center on tile 'surface'
+        player.y = (5 * (image.height / 2)) - (image.height * 0.28);
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -177,7 +187,6 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png',
         'images/char-cat-girl.png'
     ]);
     Resources.onReady(init);

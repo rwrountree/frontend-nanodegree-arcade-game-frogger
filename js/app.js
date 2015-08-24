@@ -21,7 +21,6 @@ Enemy.prototype.update = function (dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    // TODO: implement Enemy.update
     this.x += this.speed * dt;
 };
 
@@ -64,7 +63,6 @@ Player.prototype.render = function () {
 // Handle the player's input
 Player.prototype.handleInput = function (keyCode) {
     'use strict';
-    // TODO: implement Player.handleInput
     var image = Resources.get(this.sprite),
         width = image.width,
         height = image.height;

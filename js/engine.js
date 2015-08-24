@@ -111,6 +111,8 @@ var Engine = (function (global) {
             enemy.update(dt);
         });
         player.update();
+
+        deactivateBugs();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -191,19 +193,29 @@ var Engine = (function (global) {
         player.y = (5 * (image.height / 2)) - (image.height * 0.28);
     }
 
+    function deactivateBugs() {
+        var maxXPosition = Resources.get(allEnemies[0].sprite).width * 5;
+        allEnemies.forEach(function (bug) {
+            if (bug.x >= maxXPosition) {
+                bug.active = false;
+            }
+        });
+    }
+
     function spawnBug(dt) {
         var bugIndex,
             bug,
             numBugs = allEnemies.length,
-            height = Resources.get(player.sprite);
+            image = Resources.get(player.sprite);
 
         spawnTimer -= dt;
         if (spawnTimer <= 0) {
             for (bugIndex = 0; bugIndex < numBugs; bugIndex += 1) {
                 bug = allEnemies[bugIndex];
                 if (!bug.active) {
-                    bug.x = 0;
-                    bug.y = (getRandomInt(1, 3) * (height / 2)) - (height * 0.28);
+                    bug.x = -image.width;
+                    bug.y = (getRandomInt(1, 3) * (image.height / 2)) - (image.height * 0.28);
+                    bug.speed = getRandomInt(10, 50);
                     bug.active = true;
                     break;
                 }

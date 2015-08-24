@@ -63,22 +63,33 @@ Player.prototype.render = function () {
 // Handle the player's input
 Player.prototype.handleInput = function (keyCode) {
     'use strict';
-    var image = Resources.get(this.sprite),
-        width = image.width,
-        height = image.height;
+    var stepX = 101,
+        stepY = 83;
 
     switch (keyCode) {
         case 'left':
-            player.x -= width;
+            player.x -= stepX;
+            if (player.x < 0) {
+                player.x += stepX;
+            }
             break;
         case 'right':
-            player.x += width;
+            player.x += stepX;
+            if (player.x > 4 * stepX) {
+                player.x -= stepX;
+            }
             break;
         case 'up':
-            player.y -= height / 2;
+            player.y -= stepY;
+            if (player.y < -stepY) {
+                player.y += stepY;
+            }
             break;
         case 'down':
-            player.y += height / 2;
+            player.y += stepY;
+            if (player.y > 5 * stepY) {
+                player.y -= stepY;
+            }
             break;
         default:
         // no op

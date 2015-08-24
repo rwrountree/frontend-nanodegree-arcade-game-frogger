@@ -26,7 +26,9 @@ var Engine = (function (global) {
         ctx = canvas.getContext('2d'),
         lastTime,
         SPAWN_TIMER_MAX = 0.5,
-        spawnTimer = SPAWN_TIMER_MAX;
+        spawnTimer = SPAWN_TIMER_MAX,
+        MIN_BUG_SPEED = 150,
+        MAX_BUG_SPEED = 250;
 
     canvas.width = 505;
     canvas.height = 606;
@@ -185,11 +187,14 @@ var Engine = (function (global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        var image = Resources.get(player.sprite);
         // Start the player in the center
-        player.x = 2 * image.width;
+        player.x = 2 * 101;
         // Start the player at the bottom with a vertical adjustment to center on tile 'surface'
-        player.y = (5 * (image.height / 2)) - (image.height * 0.28);
+        player.y = (5 * 83) - 48;
+
+        allEnemies.forEach(function (bug) {
+            bug.active = false;
+        });
     }
 
     function deactivateBugs() {
@@ -212,9 +217,10 @@ var Engine = (function (global) {
             for (bugIndex = 0; bugIndex < numBugs; bugIndex += 1) {
                 bug = allEnemies[bugIndex];
                 if (!bug.active) {
-                    bug.x = -image.width;
-                    bug.y = (getRandomInt(1, 3) * (image.height / 2)) - (image.height * 0.28);
-                    bug.speed = getRandomInt(150, 250);
+                    bug.x = -101;
+                    //bug.y = (getRandomInt(1, 3) * (image.height / 2)) - (image.height * 0.28);
+                    bug.y = (getRandomInt(1, 3) * 83) - 48;
+                    bug.speed = getRandomInt(MIN_BUG_SPEED, MAX_BUG_SPEED);
                     bug.active = true;
                     break;
                 }

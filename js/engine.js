@@ -98,6 +98,14 @@ var Engine = (function (global) {
         spawnBug(dt);
     }
 
+    /**
+     * Rectangle class
+     * @param left
+     * @param top
+     * @param width
+     * @param height
+     * @constructor
+     */
     var Rectangle = function (left, top, width, height) {
         this.left = left;
         this.top = top;
@@ -108,7 +116,6 @@ var Engine = (function (global) {
     };
 
     function checkCollisions() {
-        // TODO: implement checkCollisions
         var playerRect = new Rectangle(
             player.x + 28,
             player.y + 124,
@@ -125,6 +132,7 @@ var Engine = (function (global) {
                 44,
                 47);
 
+            // Check to see if the rectangles overlap
             if (!(bugRect.left > playerRect.right ||
                 bugRect.right < playerRect.left ||
                 bugRect.top > playerRect.bottom ||
@@ -229,12 +237,18 @@ var Engine = (function (global) {
         player.y = (5 * 83) - 48;
     }
 
+    /**
+     * See if the win condition was met by the player. In this case, if he/she reached the water
+     */
     function checkForWin() {
         if (player.y < 0) {
             reset();
         }
     }
 
+    /**
+     * Deactivate bugs that have gone off screen.
+     */
     function deactivateBugs() {
         var maxXPosition = Resources.get(allEnemies[0].sprite).width * 5;
         allEnemies.forEach(function (bug) {
@@ -244,6 +258,11 @@ var Engine = (function (global) {
         });
     }
 
+    /**
+     * Spawn a new bug from the list of that has been deactivated. It is based on
+     * a timer countdown.
+     * @param dt
+     */
     function spawnBug(dt) {
         var bugIndex,
             bug,

@@ -25,7 +25,7 @@ var Engine = (function (global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime,
-        SPAWN_TIMER_MAX = 1,
+        SPAWN_TIMER_MAX = 0.5,
         spawnTimer = SPAWN_TIMER_MAX;
 
     canvas.width = 505;
@@ -185,7 +185,6 @@ var Engine = (function (global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // TODO: implement reset
         var image = Resources.get(player.sprite);
         // Start the player in the center
         player.x = 2 * image.width;
@@ -215,7 +214,7 @@ var Engine = (function (global) {
                 if (!bug.active) {
                     bug.x = -image.width;
                     bug.y = (getRandomInt(1, 3) * (image.height / 2)) - (image.height * 0.28);
-                    bug.speed = getRandomInt(10, 50);
+                    bug.speed = getRandomInt(150, 250);
                     bug.active = true;
                     break;
                 }

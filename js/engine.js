@@ -94,11 +94,47 @@ var Engine = (function (global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        checkForWin();
         spawnBug(dt);
     }
 
+    var Rectangle = function (left, top, width, height) {
+        this.left = left;
+        this.top = top;
+        this.right = this.left + width;
+        this.bottom = this.top + height;
+        this.width = width;
+        this.height = height;
+    };
+
     function checkCollisions() {
         // TODO: implement checkCollisions
+        var playerRect = new Rectangle(
+            player.x + 28,
+            player.y + 124,
+            44,
+            47);
+
+        allEnemies.forEach(function (bug) {
+            if (!bug.active) {
+                return;
+            }
+            var bugRect = new Rectangle(
+                bug.x + 28,
+                bug.y + 124,
+                44,
+                47);
+
+            if (!(bugRect.left > playerRect.right ||
+                bugRect.right < playerRect.left ||
+                bugRect.top > playerRect.bottom ||
+                bugRect.bottom < playerRect.top)) {
+                // Start the player in the center
+                player.x = 2 * 101;
+                // Start the player at the bottom with a vertical adjustment to center on tile 'surface'
+                player.y = (5 * 83) - 48;
+            }
+        });
     }
 
     /* This is called by the update function  and loops through all of the
@@ -191,10 +227,12 @@ var Engine = (function (global) {
         player.x = 2 * 101;
         // Start the player at the bottom with a vertical adjustment to center on tile 'surface'
         player.y = (5 * 83) - 48;
+    }
 
-        allEnemies.forEach(function (bug) {
-            bug.active = false;
-        });
+    function checkForWin() {
+        if (player.y < 0) {
+            reset();
+        }
     }
 
     function deactivateBugs() {
@@ -209,8 +247,7 @@ var Engine = (function (global) {
     function spawnBug(dt) {
         var bugIndex,
             bug,
-            numBugs = allEnemies.length,
-            image = Resources.get(player.sprite);
+            numBugs = allEnemies.length;
 
         spawnTimer -= dt;
         if (spawnTimer <= 0) {
@@ -218,7 +255,6 @@ var Engine = (function (global) {
                 bug = allEnemies[bugIndex];
                 if (!bug.active) {
                     bug.x = -101;
-                    //bug.y = (getRandomInt(1, 3) * (image.height / 2)) - (image.height * 0.28);
                     bug.y = (getRandomInt(1, 3) * 83) - 48;
                     bug.speed = getRandomInt(MIN_BUG_SPEED, MAX_BUG_SPEED);
                     bug.active = true;

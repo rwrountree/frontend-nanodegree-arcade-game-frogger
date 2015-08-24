@@ -48,10 +48,7 @@ var Player = function () {
 
 Player.prototype.update = function (dt) {
     'use strict';
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    // TODO: implement Player.update
+    // no op
 };
 
 // Draw the player on the screen, required method for game

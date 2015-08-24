@@ -14,7 +14,7 @@
  * a little simpler to work with.
  */
 
-var Engine = (function(global) {
+var Engine = (function (global) {
     'use strict';
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -24,11 +24,21 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        SPAWN_TIMER_MAX = 1,
+        spawnTimer = SPAWN_TIMER_MAX;
 
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
+
+    /*
+     * Returns a random integer between min (inclusive) and max (inclusive)
+     * Using Math.round() will give you a non-uniform distribution!
+     */
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -82,6 +92,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        spawnBug(dt);
     }
 
     function checkCollisions() {
@@ -96,7 +107,7 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
         player.update();
@@ -158,8 +169,10 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
+        allEnemies.forEach(function (enemy) {
+            if (enemy.active) {
+                enemy.render();
+            }
         });
 
         player.render();
@@ -176,6 +189,27 @@ var Engine = (function(global) {
         player.x = 2 * image.width;
         // Start the player at the bottom with a vertical adjustment to center on tile 'surface'
         player.y = (5 * (image.height / 2)) - (image.height * 0.28);
+    }
+
+    function spawnBug(dt) {
+        var bugIndex,
+            bug,
+            numBugs = allEnemies.length,
+            height = Resources.get(player.sprite);
+
+        spawnTimer -= dt;
+        if (spawnTimer <= 0) {
+            for (bugIndex = 0; bugIndex < numBugs; bugIndex += 1) {
+                bug = allEnemies[bugIndex];
+                if (!bug.active) {
+                    bug.x = 0;
+                    bug.y = (getRandomInt(1, 3) * (height / 2)) - (height * 0.28);
+                    bug.active = true;
+                    break;
+                }
+            }
+            spawnTimer = SPAWN_TIMER_MAX;
+        }
     }
 
     /* Go ahead and load all of the images we know we're going to need to

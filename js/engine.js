@@ -28,7 +28,8 @@ var Engine = (function (global) {
         SPAWN_TIMER_MAX = 0.5,
         spawnTimer = SPAWN_TIMER_MAX,
         MIN_BUG_SPEED = 150,
-        MAX_BUG_SPEED = 250;
+        MAX_BUG_SPEED = 250,
+        score = 0;
 
     canvas.width = 505;
     canvas.height = 606;
@@ -156,7 +157,6 @@ var Engine = (function (global) {
         allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
-        player.update();
 
         deactivateBugs();
     }
@@ -207,6 +207,8 @@ var Engine = (function (global) {
 
 
         renderEntities();
+
+        renderScore();
     }
 
     /* This function is called by the render function and is called on each game
@@ -242,8 +244,21 @@ var Engine = (function (global) {
      */
     function checkForWin() {
         if (player.y < 0) {
+            score += 1;
             reset();
         }
+    }
+
+    /**
+     * Draw the current score
+     */
+    function renderScore() {
+        // draw the score
+        ctx.save();
+        ctx.font = "20px Arial";
+        ctx.fillStyle = "rgba(0,0,0,1)";
+        ctx.fillText("Score: " + score, 20, 37);
+        ctx.restore();
     }
 
     /**

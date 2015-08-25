@@ -65,27 +65,27 @@ Player.prototype.handleInput = function (keyCode) {
 
     switch (keyCode) {
         case 'left':
-            player.x -= stepX;
-            if (player.x < 0) {
-                player.x += stepX;
+            this.x -= stepX;
+            if (this.x < 0) {
+                this.x += stepX;
             }
             break;
         case 'right':
-            player.x += stepX;
-            if (player.x > 4 * stepX) {
-                player.x -= stepX;
+            this.x += stepX;
+            if (this.x > 4 * stepX) {
+                this.x -= stepX;
             }
             break;
         case 'up':
-            player.y -= stepY;
-            if (player.y < -stepY) {
-                player.y += stepY;
+            this.y -= stepY;
+            if (this.y < -stepY) {
+                this.y += stepY;
             }
             break;
         case 'down':
-            player.y += stepY;
-            if (player.y > 5 * stepY) {
-                player.y -= stepY;
+            this.y += stepY;
+            if (this.y > 5 * stepY) {
+                this.y -= stepY;
             }
             break;
         default:
